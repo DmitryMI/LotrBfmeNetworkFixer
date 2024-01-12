@@ -12,4 +12,5 @@ endif()
 project ("LotrBfmeNetworkFixer")
 
 # Include sub-projects.
-add_subdirectory ("LotrBfmeNetworkFixer")
+add_subdirectory ("launcher")
+add_subdirectory ("test_pipe")
