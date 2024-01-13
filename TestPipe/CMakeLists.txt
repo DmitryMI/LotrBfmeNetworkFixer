@@ -26,9 +26,15 @@ elseif(DEFINED ENV{SPDLOG_ROOT})
 else()
 	message(STATUS "SPDLOG_ROOT not set!")
 endif()
-find_package(spdlog REQUIRED)
+
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    find_package(spdlog REQUIRED)
+	target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog)
+elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
+    target_include_directories(${PROJECT_NAME} PRIVATE "${SPDLOG_ROOT}/../include/")
+endif()
+
 target_compile_definitions(${PROJECT_NAME} PRIVATE _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog)
 target_link_libraries(${PROJECT_NAME} PRIVATE Ws2_32.lib)
 

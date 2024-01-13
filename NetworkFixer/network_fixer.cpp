@@ -29,8 +29,6 @@ void setup_logging()
     spdlog::set_default_logger(std::make_shared<spdlog::logger>(logger));
 }
 
-
-
 BOOL WINAPI DllMain(HANDLE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
     switch (fdwReason)

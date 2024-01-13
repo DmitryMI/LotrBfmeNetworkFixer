@@ -56,6 +56,7 @@ bool request_target_ip()
     if (!fSuccess)
     {
         spdlog::error(__FUNCTION__": SetNamedPipeHandleState failed. GLE={}", GetLastError());
+        CloseHandle(hPipe);
         return false;
     }
 
@@ -74,7 +75,8 @@ bool request_target_ip()
     if (!fSuccess)
     {
         spdlog::error(__FUNCTION__": WriteFile failed. GLE={}", GetLastError());
-        return -1;
+        CloseHandle(hPipe);
+        return false;
     }
 
     do
@@ -98,9 +100,11 @@ bool request_target_ip()
     if (!fSuccess)
     {
         spdlog::error(__FUNCTION__": ReadFile from pipe failed. GLE={}", GetLastError());
+        CloseHandle(hPipe);
         return false;
     }
 
+    CloseHandle(hPipe);
     return true;
 }
 
