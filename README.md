@@ -20,4 +20,5 @@ Target application's files are not modified in any way, all changes are applied 
 # Advanced usage
 
 Run NetworkFixerLauncher[.x86].exe --help to see available arguments.
-   
+
+Make sure to use the correct bitness! x86 version will not work with x64 target and vice versa.
