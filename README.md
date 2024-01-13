@@ -5,10 +5,12 @@ This way the application will only know about one network inreface. This solutio
 
 Initially this project was developed to fix LAN multiplayer in LOTR BFME 2 game, however it can be repurposed for any other game or app which uses the same IP detection method.
 
+Target application's files are not modified in any way, all changes are applied to the process memory.
+
 # Usage For LOTR BFME II and RotWK addon
 
 1. Download NetworkFixerLauncher.x86.exe and NetworkFixer.x86.dll
-2. Place both files in the same directory
+2. Place both files in the same directory. No need to place the files in the game installation directory.
 3. Run NetworkFixerLauncher.x86.exe as administrator
 4. Select desired IP address
 5. Run the game
