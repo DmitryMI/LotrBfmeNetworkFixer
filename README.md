@@ -4,7 +4,7 @@ Injects selected application with a DLL wich hooks gethostbyname() wsock2 functi
 This way the application will only know about one network interface. This solution will not work if the application uses other means to get list of IP addresses.
 
 Initially this project was developed to fix LAN multiplayer in LOTR BFME 2 game, however it can be repurposed for any other game or app which uses the same IP detection method.
-The problem with LOTR is that if you have multiple network adapters, the game will pick the first one. Since the order of adapters is impossible to control, game can potentially bind to wrong network interface rendering LAN multipleer impossible or inconvenient. NetwokFixer fixes this issue by allowing to manually select the correct network interface.
+The problem with LOTR is that if you have multiple network adapters, the game will pick the first one. Since the order of adapters is impossible to control, game can potentially bind to wrong network interface rendering LAN multiplayer impossible or inconvenient. NetwokFixer fixes this issue by allowing the user to manually select the correct network interface.
 
 Target application's files are not modified in any way, all changes are applied to the process memory.
 
