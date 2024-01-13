@@ -1,7 +1,7 @@
 
 project ( NetworkFixer )
 
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+# set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 
 # include libdetours headers:
 include_directories ( ${DETOURS_DIR}/Detours/src )

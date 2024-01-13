@@ -20,7 +20,7 @@ const DWORD pipe_server_buffer_size = 1024;
 #if _WIN64
 const std::string dll_name_default = "NetworkFixer.dll";
 #else
-const std::string dll_name_default = "NetworkFixer (x86).dll";
+const std::string dll_name_default = "NetworkFixer.x86.dll";
 #endif
 
 po::options_description create_options_description()
