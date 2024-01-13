@@ -101,13 +101,12 @@ void pipe_server::pipe_thread_worker(HANDLE pipeHandle)
         std::string reply_str = "";
         bool has_message = get_answer_to_request(request_buffer, reply_str);
 
-        spdlog::info("Replying with {}...", reply_str);
-        strcpy_s(reply_buffer, buffer_size, reply_str.c_str());
-
-        DWORD reply_bytes = static_cast<DWORD>(min(buffer_size, reply_str.size() + 1));
-
         if (has_message)
         {
+            spdlog::debug("Replying with {}...", reply_str);
+            strcpy_s(reply_buffer, buffer_size, reply_str.c_str());
+
+            DWORD reply_bytes = static_cast<DWORD>(min(buffer_size, reply_str.size() + 1));
 
             // Write the reply to the pipe. 
             bool write_success = WriteFile(
@@ -124,7 +123,7 @@ void pipe_server::pipe_thread_worker(HANDLE pipeHandle)
         }
         else
         {
-            spdlog::error("get_answer_to_request returned false!");
+            spdlog::info("get_answer_to_request returned false");
             break;
         }
     }

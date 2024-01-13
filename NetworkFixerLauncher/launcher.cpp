@@ -15,7 +15,7 @@ namespace po = boost::program_options;
 std::vector<DWORD> injected_processes;
 std::string target_ip;
 std::unique_ptr<pipe_server> pipe_server_instance;
-const uint64_t pipe_server_buffer_size = 512;
+const DWORD pipe_server_buffer_size = 1024;
 
 po::options_description create_options_description()
 {
@@ -265,11 +265,17 @@ std::string select_ip()
     return ip_list[index];
 }
 
-bool reply_to_ip_request(std::string request, std::string& reply)
+bool reply_to_pipe_request(std::string request, std::string& reply)
 {
-    spdlog::info("Client Request String:\"{}\"\n", request);
+    spdlog::debug("Client Request String:\"{}\"", request);
 
-    if (request  != "GET IP")
+    if (request.starts_with("LOG "))
+    {
+        spdlog::info(request);
+        return true;
+    }
+
+    if (request != "GET IP")
     {
         return false;
     }
@@ -351,10 +357,10 @@ int main(int argc, char** argv)
     spdlog::info("Path to dll: {}", dll_path.string());
 
     pipe_server_instance = std::make_unique<pipe_server>(vm["pipe"].as<std::string>(), pipe_server_buffer_size);
-    pipe_server_instance->register_callback(reply_to_ip_request);
+    pipe_server_instance->register_callback(reply_to_pipe_request);
     pipe_server_instance->create_pipe_and_listen();
     
-    monitor_and_inject(process_name, dll_path_str, vm["period"].as<int>(), false);
+    monitor_and_inject(process_name, dll_path, vm["period"].as<int>(), false);
 
 	return 0;
 }

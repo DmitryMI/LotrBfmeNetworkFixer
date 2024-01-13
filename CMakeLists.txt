@@ -11,6 +11,12 @@ endif()
 
 project ("LotrBfmeNetworkFixer")
 
+set (M_DETOURS_LIB "DetoursLib" )
+set (DETOURS_DIR "${CMAKE_SOURCE_DIR}/${M_DETOURS_LIB}" CACHE PATH "Detours main path")
+add_subdirectory ("DetoursLib")
+set (DETOURS_LIB $<TARGET_FILE:DetoursLib> CACHE PATH "Detours library path" )
+
 # Include sub-projects.
-add_subdirectory ("launcher")
-add_subdirectory ("test_pipe")
+add_subdirectory ("NetworkFixerLauncher")
+add_subdirectory ("NetworkFixer")
+add_subdirectory ("TestPipe")

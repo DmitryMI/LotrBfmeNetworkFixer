@@ -1,14 +1,25 @@
-﻿set(BOOST_ROOT "C:/FilesAndFolders/boost_1_80_0" CACHE STRING "Path to boost source code")
-set(SPDLOG_ROOT "C:/FilesAndFolders/spdlog/build" CACHE STRING "Path to spdlog build")
 
-cmake_path(GET CMAKE_CURRENT_SOURCE_DIR FILENAME current_source_dir_name)
-message(STATUS ${current_source_dir_name})
+project ( NetworkFixer )
 
-project(${current_source_dir_name})
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 
-add_executable (${PROJECT_NAME} "launcher.cpp" "pipe_server.hpp"  "pipe_server.cpp")
+# include libdetours headers:
+include_directories ( ${DETOURS_DIR}/Detours/src )
 
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 23)
+set (srcs
+	network_fixer.cpp
+	pipe_sink.hpp
+)
+
+add_library ( ${PROJECT_NAME} SHARED ${hdrs} ${srcs} ${rsrc})
+
+if (CMAKE_VERSION VERSION_GREATER 3.12)
+  set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 23)
+endif()
+
+# link with libdetours.lib
+target_link_libraries ( ${PROJECT_NAME} PRIVATE ${DETOURS_LIB} )
+add_dependencies(${PROJECT_NAME} DetoursLib)
 
 # Boost
 set(Boost_USE_STATIC_LIBS ON)
@@ -32,3 +43,5 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE _SILENCE_ALL_MS_EXT_DEPRECATI
 target_link_libraries(${PROJECT_NAME} PRIVATE spdlog::spdlog)
 target_link_libraries(${PROJECT_NAME} PRIVATE Ws2_32.lib)
 
+
+INSTALL( TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT ${PROJECT_NAME} )
