@@ -247,16 +247,16 @@ std::string select_ip()
         ip_list.push_back(ip_str);
     }
 
-    for (int i = 0; i < ip_list.size(); i++)
+    for (size_t i = 0; i < ip_list.size(); i++)
     {
         std::cout << i << ": " << ip_list[i] << "\n";
     }
 
     std::cout << "Select ip address by entering the number: ";
-    int index;
+    size_t index;
     std::cin >> index;
 
-    if (index < 0 || index >= ip_list.size())
+    if (index >= ip_list.size())
     {
         spdlog::error("User input invalid");
         return "";
@@ -282,7 +282,7 @@ bool reply_to_pipe_request(std::string request, std::string& reply)
 
     reply.clear();
 
-    for (int i = 0; i < target_ip.size(); i++)
+    for (size_t i = 0; i < target_ip.size(); i++)
     {
         reply.push_back(target_ip[i]);
     }

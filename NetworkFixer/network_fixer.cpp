@@ -13,9 +13,8 @@ void setup_logging()
     OutputDebugStringA("Setting up logger\n");
 
     auto pipe_sink = std::make_shared<pipe_sink_mt>(pipe_name);
-#ifdef DEBUG
+#ifdef _DEBUG
     OutputDebugStringA("Debug log level enabled\n");
-    msvc_sink->set_level(spdlog::level::debug);
     pipe_sink->set_level(spdlog::level::debug);
 #else
     OutputDebugStringA("Debug log level disabled\n");
