@@ -102,8 +102,6 @@ protected:
 
         if (!connect())
         {
-            // Simply drop messages
-            OutputDebugStringA("pipe_sink: log messages dropped");
             return false;
         }
 

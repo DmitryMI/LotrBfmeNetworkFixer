@@ -9,6 +9,7 @@ include_directories ( ${DETOURS_DIR}/Detours/src )
 set (srcs
 	network_fixer.cpp
 	pipe_sink.hpp
+	hook_gethostbyname.hpp
 )
 
 add_library ( ${PROJECT_NAME} SHARED ${hdrs} ${srcs} ${rsrc})
