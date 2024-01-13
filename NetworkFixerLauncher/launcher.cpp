@@ -17,6 +17,12 @@ std::string target_ip;
 std::unique_ptr<pipe_server> pipe_server_instance;
 const DWORD pipe_server_buffer_size = 1024;
 
+#if _WIN64
+const std::string dll_name_default = "NetworkFixer.dll";
+#else
+const std::string dll_name_default = "NetworkFixer (x86).dll";
+#endif
+
 po::options_description create_options_description()
 {
 	po::options_description desc("Allowed options");
@@ -24,7 +30,7 @@ po::options_description create_options_description()
 	desc.add_options()
 		("help", "produce help message")
 		("ip", po::value<std::string>(), "IP address for the game to use")
-        ("dll", po::value<std::string>()->default_value("NetworkFixer.dll"), "Path to .dll to be injected")
+        ("dll", po::value<std::string>()->default_value(dll_name_default), "Path to .dll to be injected")
         ("process", po::value<std::string>()->default_value("game.dat"), "Name of target process")
         ("pipe", po::value<std::string>()->default_value("LOTR_BFME_2_NETWORK_FIXER_PIPE"), "Name of pipe")
         ("period", po::value<int>()->default_value(5000), "Monitor period in ms")
@@ -354,7 +360,15 @@ int main(int argc, char** argv)
 
     auto dll_path = std::filesystem::absolute(dll_path_str);
 
-    spdlog::info("Path to dll: {}", dll_path.string());
+    if (std::filesystem::exists(dll_path))
+    {
+        spdlog::info("Path to dll: {}", dll_path.string());
+    }
+    else
+    {
+        spdlog::error("Dll {} does not exist!", dll_path.string());
+        return 1;
+    }
 
     pipe_server_instance = std::make_unique<pipe_server>(vm["pipe"].as<std::string>(), pipe_server_buffer_size);
     pipe_server_instance->register_callback(reply_to_pipe_request);
